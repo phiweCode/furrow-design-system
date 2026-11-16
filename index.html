@@ -1,0 +1,1486 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Furrow — design system</title>
+<meta name="description" content="Furrow: design system for an AI-enabled agricultural assessment workspace.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);font-size:14px;line-height:22px;background:var(--canvas);color:var(--ink)}
+.shell{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--line);padding:var(--space-5) var(--space-4);background:var(--surface)}
+aside .brandname{font-weight:600;font-size:18px;margin:0 0 var(--space-1)}
+aside .sub{font-size:12px;color:var(--ink-muted);margin-bottom:var(--space-5)}
+aside a{display:block;padding:6px var(--space-3);border-radius:var(--radius-md);color:var(--ink-muted);text-decoration:none;font-weight:500;font-size:13px}
+aside a:hover{background:var(--surface-hover);color:var(--ink)}
+aside .grp{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);margin:var(--space-4) var(--space-3) var(--space-1)}
+.tgl{margin-top:var(--space-5);font:inherit;font-size:13px;font-weight:500;height:var(--control-md);padding:0 var(--space-4);border-radius:var(--radius-md);border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer;width:100%}
+main{padding:var(--space-6);max-width:1080px;min-width:0}
+section{margin-bottom:var(--space-7);scroll-margin-top:var(--space-5)}
+h2{font-size:24px;line-height:32px;margin:0 0 var(--space-4)}
+h3{font-size:15px;margin:var(--space-5) 0 var(--space-2)}
+.prose{max-width:760px} .prose h2{font-size:18px;line-height:26px;margin:var(--space-6) 0 var(--space-2)}
+.prose table,table.t{border-collapse:collapse;width:100%;margin:var(--space-3) 0;background:var(--surface);border:1px solid var(--line)}
+.prose th,.prose td,table.t td{border-bottom:1px solid var(--line);padding:var(--space-2) var(--space-3);text-align:left;vertical-align:top}
+.prose th{background:var(--surface-sunken);color:var(--ink-muted);font-size:12px}
+code{font-family:var(--font-mono);font-size:12.5px;background:var(--surface-sunken);padding:1px 4px;border-radius:var(--radius-sm)}
+pre{background:var(--surface-sunken);padding:var(--space-3);border-radius:var(--radius-md);overflow:auto} pre code{padding:0}
+a{color:var(--brand)}
+.frame{border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--canvas);margin-bottom:var(--space-4)}
+.pv{display:block;width:100%;border:0}
+.cover .pv{height:288px}
+.sws{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--space-3)}
+.sw{display:flex;gap:var(--space-3);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:var(--space-3)}
+.chip{width:56px;height:56px;flex:none;border-radius:var(--radius-md);border:1px solid var(--line)}
+.sw p{margin:var(--space-1) 0 0;font-size:12px;line-height:16px;color:var(--ink-muted)}
+.tn{font-family:var(--font-mono);font-size:13px;font-weight:500} .tv{font-family:var(--font-mono);font-size:12px;color:var(--ink-muted)}
+.tyrow{display:grid;grid-template-columns:200px 1fr;gap:var(--space-4);align-items:baseline;padding:var(--space-3) 0;border-bottom:1px solid var(--line)}
+.scrow{display:grid;grid-template-columns:100px 60px 60px 1fr;gap:var(--space-3);align-items:center;padding:var(--space-2) 0;border-bottom:1px solid var(--line)}
+.bar{height:12px;background:var(--brand);border-radius:2px} .u{color:var(--ink-muted);font-size:13px}
+.dl a{margin-right:var(--space-4)}
+@media (max-width:800px){.shell{grid-template-columns:1fr} aside{position:static;height:auto} main{padding:var(--space-4)} .tyrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside>
+<div class="brandname">Furrow</div><div class="sub">Design system · v1</div>
+<div class="grp">Foundations</div>
+<a href="#overview">Overview</a><a href="#colors">Colour</a><a href="#type">Typography</a><a href="#scales">Space & shape</a>
+<div class="grp">Components</div>
+<a href="#button">Button</a><a href="#statusbadge">StatusBadge</a><a href="#field">Field</a><a href="#aisuggestion">AISuggestion</a><a href="#workflowstepper">WorkflowStepper</a><a href="#datatable">DataTable</a><a href="#documentdropzone">DocumentDropzone</a><a href="#decisionpanel">DecisionPanel</a>
+<button class="tgl" id="tgl" aria-pressed="false">Switch to dark theme</button>
+</aside>
+<main>
+<section id="overview">
+<div class="frame cover"><iframe class="pv" style="height:288px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;title&gt;Furrow&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&amp;display=swap&quot;&gt;
+&lt;style&gt;
+  html, body { margin:0; height:100%; }
+  body { background:var(--canvas); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; overflow:hidden; }
+  .art svg { display:block; width:480px; height:288px; }
+  .brand { fill:var(--brand); }
+  .harvest { fill:var(--harvest); }
+  .ai { fill:var(--ai); }
+  .deep { fill:var(--ink); }
+  .blk { rx:var(--radius-lg); }
+  .pill { rx:var(--radius-sm); }
+  .cut { fill:var(--canvas); }
+  .row { fill:var(--harvest); }
+  .words { position:absolute; left:var(--space-6); bottom:var(--space-6); max-width:440px; }
+  .name { margin:0; font-size:120px; line-height:.92; font-weight:600; letter-spacing:-.02em; color:var(--ink); }
+  .tag { margin:var(--space-2) 0 0 6px; font-size:14px; line-height:20px; color:var(--ink-muted); }
+&lt;/style&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;cover&quot;&gt;
+&lt;div class=&quot;art&quot; aria-hidden=&quot;true&quot;&gt;
+&lt;svg viewBox=&quot;0 0 480 288&quot; width=&quot;480&quot; height=&quot;288&quot;&gt;
+&lt;!--
+  blocks      brand 160×264 slab bled off the top (identity, largest) · harvest 136×152 · ink 168×208 bleeding off the right · ai 136×40 once (it only ever means &quot;AI suggested&quot;) — ≈35% of 960×288
+  arrangement one tall field-green slab with satellites, bottoms on one line space-5 above the edge, space-4 gutters
+  pattern     literal motif, furrows: radius-sm pills (8px tall) at a space-5 pitch, cut from the slab in canvas like ploughed rows, five more in harvest across the ink block — &quot;from loose paper to a decision&quot;, rows put in order
+  scales      sides in space-2 multiples; gutters space-4; pitch space-5; corners radius-lg on blocks, pill rx radius-sm (half of 8px)
+--&gt;
+&lt;rect class=&quot;brand blk&quot; x=&quot;0&quot; y=&quot;-16&quot; width=&quot;160&quot; height=&quot;264&quot; rx=&quot;10&quot;/&gt;
+&lt;rect class=&quot;ai blk&quot; x=&quot;176&quot; y=&quot;40&quot; width=&quot;136&quot; height=&quot;40&quot; rx=&quot;10&quot;/&gt;
+&lt;rect class=&quot;harvest blk&quot; x=&quot;176&quot; y=&quot;96&quot; width=&quot;136&quot; height=&quot;152&quot; rx=&quot;10&quot;/&gt;
+&lt;rect class=&quot;deep blk&quot; x=&quot;328&quot; y=&quot;40&quot; width=&quot;168&quot; height=&quot;208&quot; rx=&quot;10&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;24&quot; width=&quot;96&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;120&quot; y=&quot;24&quot; width=&quot;24&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;48&quot; width=&quot;64&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;88&quot; y=&quot;48&quot; width=&quot;48&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;72&quot; width=&quot;112&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;96&quot; width=&quot;40&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;64&quot; y=&quot;96&quot; width=&quot;72&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;120&quot; width=&quot;88&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;112&quot; y=&quot;120&quot; width=&quot;24&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;144&quot; width=&quot;56&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;80&quot; y=&quot;144&quot; width=&quot;56&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;168&quot; width=&quot;120&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;192&quot; width=&quot;32&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;56&quot; y=&quot;192&quot; width=&quot;80&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;16&quot; y=&quot;216&quot; width=&quot;72&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;cut pill&quot; x=&quot;96&quot; y=&quot;216&quot; width=&quot;32&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;row pill&quot; x=&quot;344&quot; y=&quot;72&quot; width=&quot;64&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;row pill&quot; x=&quot;416&quot; y=&quot;96&quot; width=&quot;48&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;row pill&quot; x=&quot;344&quot; y=&quot;120&quot; width=&quot;40&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;row pill&quot; x=&quot;392&quot; y=&quot;144&quot; width=&quot;72&quot; height=&quot;8&quot;/&gt;
+&lt;rect class=&quot;row pill&quot; x=&quot;344&quot; y=&quot;168&quot; width=&quot;88&quot; height=&quot;8&quot;/&gt;
+&lt;/svg&gt;
+&lt;/div&gt;
+&lt;div class=&quot;words&quot;&gt;
+&lt;h1 class=&quot;name&quot;&gt;Furrow&lt;/h1&gt;
+&lt;p class=&quot;tag&quot;&gt;From loose paper to a decision you can defend.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div>
+<div class="prose"><p>Furrow is the design system for an agricultural assessment workspace: the place where a field officer, analyst or credit committee turns farm visit notes, spreadsheets and Word reports into a structured record, an assessment and, at the end, a financial decision. Everything here serves one idea — <strong>from loose paper to a decision you can defend</strong>.</p>
+<p>The product replaces three habits: retyping information from documents, reformatting it into a template, and re-checking it by hand. The UI therefore has to feel as calm and dependable as a good ledger, while making AI help obvious, optional and traceable.</p>
+<h2>Principles</h2>
+<ol>
+<li><strong>The record is the hero.</strong> Chrome stays quiet (canvas, hairlines, muted labels) so the farm's data and figures carry the page. One <code>brand</code> action per view.</li>
+<li><strong>Show where every value came from.</strong> Any field filled from a document or by AI carries provenance: the file, the page, the cell. A value without a source is a value someone typed.</li>
+<li><strong>AI proposes, people decide.</strong> AI output is always visibly <em>suggested</em> (<code>ai</code> colour, sparkle icon, the word "Suggested") until a person accepts, edits or rejects it. AI never submits, approves or declines.</li>
+<li><strong>One path, visible.</strong> Every record moves through the same four stages — Capture → Structure → Assess → Decide. The stepper is always on screen; people always know what's left.</li>
+<li><strong>Built for long sessions.</strong> Dense but breathable: 14px body, 36px controls, 4px grid, tabular figures. Works in bright field light (light theme) and late-night committee prep (dark theme).</li>
+</ol>
+<h2>Voice and content</h2>
+<ul>
+<li>Plain, specific, calm. Say what happened and what to do next: "3 fields need a source" not "Oops! Something went wrong."</li>
+<li>Sentence case everywhere — buttons, titles, tabs. Verbs first on buttons: "Import documents", "Accept suggestion", "Send to committee".</li>
+<li>Use the domain's words: hectares, herd size, offtake agreement, collateral, season. Don't make users translate.</li>
+<li>Numbers: South African formatting by default — <code>R 1 248 500.00</code>, thin-space thousands, <code>ha</code> for hectares, dates <code>16 Nov 2026</code>. Always in the <code>mono</code> family so columns align.</li>
+<li>AI copy is modest and attributable: "Suggested from Farm_Visit_Report.docx, p. 3 · 82% confidence". Never "AI thinks…" or anthropomorphic phrasing.</li>
+<li>Decisions are stated, not softened: <strong>Approved</strong>, <strong>Declined</strong>, <strong>Referred</strong>, <strong>Needs information</strong> — each with the reason in one line.</li>
+</ul>
+<h2>Visual foundations</h2>
+<p><strong>Colour.</strong> A warm, paper-like neutral base (<code>canvas</code>, <code>surface</code>, <code>surface-sunken</code>) with deep <code>ink</code>. <code>brand</code> (field green) is for primary actions, selection and navigation. <code>harvest</code> (ochre) is identity and data-viz emphasis only — never text on light surfaces. <code>ai</code> (dew teal) is reserved exclusively for AI-produced content, so people learn to spot it at a glance. Status colours — <code>positive</code>, <code>caution</code>, <code>negative</code>, <code>info</code> — each have a <code>-tint</code> for backgrounds and always appear with an icon or word, never colour alone. Every text token passes 4.5:1 on the surfaces its usage note names, in both themes.</p>
+<p><strong>Type.</strong> IBM Plex Sans for UI, IBM Plex Mono for figures (amounts, hectares, IDs). Both are free on Google Fonts; load with:</p>
+<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+</code></pre>
+<p>Scale: <code>display</code> 32 → <code>heading-1</code> 24 → <code>heading-2</code> 18 → <code>heading-3</code> 15 → <code>body</code> 14 → <code>label</code> 13 → <code>caption</code> 12 → <code>overline</code> 11. Figures are right-aligned with <code>font-variant-numeric: tabular-nums</code>.</p>
+<p><strong>Space and shape.</strong> 4px grid (<code>space-1</code> … <code>space-7</code>). Controls are <code>control-md</code> (36px); use <code>control-lg</code> (44px) for decision actions and tablet use in the field. Corners are gently rounded: <code>radius-md</code> on controls, <code>radius-lg</code> on cards and panels, <code>radius-pill</code> for step markers and meters. Prefer a <code>line</code> hairline over a shadow; shadows (<code>shadow-overlay</code>) are for things that float.</p>
+<p><strong>Focus.</strong> 2px solid <code>focus</code> ring with a 2px offset, on every interactive element, in both themes.</p>
+<h2>Layout: the workspace shell</h2>
+<p>A three-zone layout that mirrors the job — <em>source</em>, <em>structure</em>, <em>help</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Width</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Navigation sidebar</td>
+<td><code>sidebar</code> (240px)</td>
+<td>Workspaces, queues (My drafts, In review, Committee), search</td>
+</tr>
+<tr>
+<td>Record canvas</td>
+<td>fluid, max 960px content</td>
+<td>Record header + stepper, the current stage's form or table</td>
+</tr>
+<tr>
+<td>Side panel</td>
+<td><code>assistant</code> (360px), collapsible</td>
+<td>Source document viewer <strong>or</strong> the AI assistant — one at a time</td>
+</tr>
+</tbody>
+</table>
+<p>The record header always shows: record name, <code>StatusBadge</code>, owner, last saved time, and the <code>WorkflowStepper</code>. Unsaved work autosaves; say "Saved 2 min ago" in <code>caption</code> / <code>ink-subtle</code>.</p>
+<h2>The four stages (product pattern)</h2>
+<ol>
+<li><strong>Capture</strong> — <code>DocumentDropzone</code> takes spreadsheets, Word docs, PDFs and photos. Each file gets an extraction status. Manual entry is always possible.</li>
+<li><strong>Structure</strong> — the extracted values land in a template as <code>Field</code>s and <code>DataTable</code>s. AI-filled values arrive as <code>ai</code>-tinted suggested fields with provenance; a counter in the header shows "12 suggestions to review".</li>
+<li><strong>Assess</strong> — scoring criteria, ratios and flags. AI can draft a narrative (<code>AISuggestion</code>), shown as a draft block to accept, edit or discard.</li>
+<li><strong>Decide</strong> — <code>DecisionPanel</code> summarises the recommendation, key figures, risks and conditions; a person records the outcome and reason. The decision is audit-logged with who, when and which suggestions were accepted.</li>
+</ol>
+<p>A stage can't be completed while it has unreviewed suggestions or invalid fields; the stepper shows the count instead of a tick.</p>
+<h2>Iconography</h2>
+<p>Use <a href="https://lucide.dev">Lucide</a> outline icons: 1.5px stroke, 16px in body text and tables, 20px in navigation and empty states, coloured with <code>currentColor</code> so they inherit the text token. One reserved glyph: <code>sparkles</code> means AI — use it nowhere else. Status icons: <code>check-circle</code> (positive), <code>alert-triangle</code> (caution), <code>x-circle</code> (negative), <code>info</code> (info). No logo is included yet; until one exists, set the product name in <code>heading-3</code> weight 600, <code>ink</code>.</p>
+<h2>Components</h2>
+<p>Previews in this system are plain HTML + <code>components/bundle.css</code> (class prefix <code>fw-</code>), so they can be ported to any framework. Included: Button, Field, AISuggestion, StatusBadge, WorkflowStepper, DataTable, DocumentDropzone, DecisionPanel. Each folder's README says when to use it and what the consumer provides.</p>
+<h2>Don'ts</h2>
+<ul>
+<li>No <code>ai</code> colour on anything a person typed, and no AI content without the sparkle + "Suggested" label.</li>
+<li>No red/green-only signalling — always pair with icon and word.</li>
+<li>No gradients, glows or decorative illustrations in working screens.</li>
+<li>Never put <code>harvest</code> text on light surfaces; never put plain white text on a dark-theme fill (use <code>on-brand</code> / <code>on-negative</code>).</li>
+</ul></div>
+<p class="dl"><strong>Files:</strong> <a href="tokens.json">tokens.json</a> <a href="tokens.css">tokens.css</a> <a href="furrow.css">furrow.css</a> (components)</p>
+</section>
+<section id="colors"><h2>Colour</h2><p class="u">Each swatch shows light · dark values. Toggle the theme to see the dark set.</p><div class="sws"><div class="sw"><div class="chip" style="background:var(--canvas)"></div><div><div class="tn">canvas</div><div class="tv">#f6f4ee · #131712</div><p>App background behind panels — the &#x27;desk&#x27; of the workspace. ink, ink-muted and ink-subtle all pass 4.5:1 on it.</p></div></div><div class="sw"><div class="chip" style="background:var(--surface)"></div><div><div class="tn">surface</div><div class="tv">#ffffff · #1a1f19</div><p>Panels, cards, forms, table rows — where work happens. All ink tokens and every status/ai text token pass 4.5:1 here.</p></div></div><div class="sw"><div class="chip" style="background:var(--surface-sunken)"></div><div><div class="tn">surface-sunken</div><div class="tv">#efece4 · #222821</div><p>Table headers, read-only fields, the source-document pane, wells. ink and ink-muted pass; ink-subtle does not (light) — use ink-muted here.</p></div></div><div class="sw"><div class="chip" style="background:var(--surface-hover)"></div><div><div class="tn">surface-hover</div><div class="tv">#e7e3d8 · #2a3128</div><p>Row hover, selected list item, pressed quiet button.</p></div></div><div class="sw"><div class="chip" style="background:var(--line)"></div><div><div class="tn">line</div><div class="tv">#ddd8cb · #2f352c</div><p>Hairline dividers between rows, panels and cards. Decorative only — never a control&#x27;s sole boundary.</p></div></div><div class="sw"><div class="chip" style="background:var(--line-strong)"></div><div><div class="tn">line-strong</div><div class="tv">#8c8778 · #6a7262</div><p>Input and checkbox borders, control outlines. 3:1+ on surface in both themes.</p></div></div><div class="sw"><div class="chip" style="background:var(--ink)"></div><div><div class="tn">ink</div><div class="tv">#1e261d · #e9ede3</div><p>Primary text, headings, figures. 13:1+ on every surface.</p></div></div><div class="sw"><div class="chip" style="background:var(--ink-muted)"></div><div><div class="tn">ink-muted</div><div class="tv">#565e52 · #a9b1a1</div><p>Secondary text: labels, help text, metadata, table headers. 5.7:1+ on every surface.</p></div></div><div class="sw"><div class="chip" style="background:var(--ink-subtle)"></div><div><div class="tn">ink-subtle</div><div class="tv">#6a7165 · #8f9887</div><p>Placeholders, timestamps, disabled-ish hints. 4.5:1+ on canvas and surface only.</p></div></div><div class="sw"><div class="chip" style="background:var(--brand)"></div><div><div class="tn">brand</div><div class="tv">#2f5d3a · #86bb8f</div><p>Field green. Primary buttons, active nav, selected step, links. As text: 6.4:1+ on every surface.</p></div></div><div class="sw"><div class="chip" style="background:var(--brand-hover)"></div><div><div class="tn">brand-hover</div><div class="tv">#244a2d · #9dcaa5</div><p>Hover/pressed fill for brand buttons.</p></div></div><div class="sw"><div class="chip" style="background:var(--on-brand)"></div><div><div class="tn">on-brand</div><div class="tv">#ffffff · #0f1a11</div><p>Text and icons on a brand fill (7.6:1 light, 8:1 dark). Never plain white in dark.</p></div></div><div class="sw"><div class="chip" style="background:var(--brand-tint)"></div><div><div class="tn">brand-tint</div><div class="tv">#e4ede3 · #1f3324</div><p>Selected rows, active tab background, completed-step fill. brand text on it 6:1+.</p></div></div><div class="sw"><div class="chip" style="background:var(--harvest)"></div><div><div class="tn">harvest</div><div class="tv">#c9962c · #d9a845</div><p>Harvest ochre — identity accent. Charts&#x27; highlight series, cover, empty-state illustration fills. Never text on light surfaces (fails 4.5:1); fine as a fill with ink on it.</p></div></div><div class="sw"><div class="chip" style="background:var(--ai)"></div><div><div class="tn">ai</div><div class="tv">#0e6a6e · #5ec4c0</div><p>Dew teal — anything the AI produced or proposes: suggestion borders, sparkle icon, &#x27;Suggested&#x27; labels. 5.4:1+ as text on every surface and on ai-tint.</p></div></div><div class="sw"><div class="chip" style="background:var(--ai-tint)"></div><div><div class="tn">ai-tint</div><div class="tv">#e0f0ee · #14302f</div><p>Background of AI-suggested fields and suggestion cards until a person accepts them.</p></div></div><div class="sw"><div class="chip" style="background:var(--ai-line)"></div><div><div class="tn">ai-line</div><div class="tv">#7fbfbc · #2f6f6c</div><p>Dashed border on AI-filled fields awaiting review (paired with the &#x27;Suggested&#x27; label, never colour alone).</p></div></div><div class="sw"><div class="chip" style="background:var(--positive)"></div><div><div class="tn">positive</div><div class="tv">#2a7347 · #74c693</div><p>Approved, valid, complete. Text 4.9:1+ on surfaces and positive-tint. Always with a check icon or word.</p></div></div><div class="sw"><div class="chip" style="background:var(--positive-tint)"></div><div><div class="tn">positive-tint</div><div class="tv">#e2f1e6 · #16301f</div><p>Approved badge / success banner background.</p></div></div><div class="sw"><div class="chip" style="background:var(--caution)"></div><div><div class="tn">caution</div><div class="tv">#93570a · #e6a64a</div><p>Needs information, low confidence, threshold near. Text 4.9:1+ on surfaces and caution-tint.</p></div></div><div class="sw"><div class="chip" style="background:var(--caution-tint)"></div><div><div class="tn">caution-tint</div><div class="tv">#fbefd9 · #342611</div><p>Caution badge / warning banner background.</p></div></div><div class="sw"><div class="chip" style="background:var(--negative)"></div><div><div class="tn">negative</div><div class="tv">#b03d2b · #f08b78</div><p>Declined, invalid, destructive. Text 4.8:1+ on surfaces and negative-tint. Lighter than positive in dark, darker in light — tellable without hue.</p></div></div><div class="sw"><div class="chip" style="background:var(--negative-tint)"></div><div><div class="tn">negative-tint</div><div class="tv">#f9e4df · #3a1d17</div><p>Error field background, declined badge, error banner.</p></div></div><div class="sw"><div class="chip" style="background:var(--on-negative)"></div><div><div class="tn">on-negative</div><div class="tv">#ffffff · #1a0d0a</div><p>Text on a negative fill (danger button).</p></div></div><div class="sw"><div class="chip" style="background:var(--info)"></div><div><div class="tn">info</div><div class="tv">#2d5f8a · #82b2dc</div><p>Referred, informational notes, focus ring. Text 5.6:1+ on surfaces and info-tint.</p></div></div><div class="sw"><div class="chip" style="background:var(--info-tint)"></div><div><div class="tn">info-tint</div><div class="tv">#e2ecf5 · #162a3c</div><p>Info banner and &#x27;Referred&#x27; badge background.</p></div></div><div class="sw"><div class="chip" style="background:var(--focus)"></div><div><div class="tn">focus</div><div class="tv">{info} · {info}</div><p>Keyboard focus ring: 2px solid, 2px offset. Alias of info.</p></div></div></div></section>
+<section id="type"><h2>Typography</h2><p class="u">IBM Plex Sans (UI) and IBM Plex Mono (figures).</p><h3>Headings</h3><div class="tyrow"><div class="tymeta"><div class="tn">display</div><div class="tv">32px / 40px · 600</div></div><div class="display" style="color:var(--ink)">Season 2026 credit assessments</div></div><div class="tyrow"><div class="tymeta"><div class="tn">heading-1</div><div class="tv">24px / 32px · 600</div></div><div class="heading-1" style="color:var(--ink)">Mokoena Farms — Assessment</div></div><div class="tyrow"><div class="tymeta"><div class="tn">heading-2</div><div class="tv">18px / 26px · 600</div></div><div class="heading-2" style="color:var(--ink)">Livestock &amp; assets</div></div><div class="tyrow"><div class="tymeta"><div class="tn">heading-3</div><div class="tv">15px / 22px · 600</div></div><div class="heading-3" style="color:var(--ink)">Irrigation</div></div><h3>Text</h3><div class="tyrow"><div class="tymeta"><div class="tn">body</div><div class="tv">14px / 20px · 400</div></div><div class="body" style="color:var(--ink)">Yield estimates are based on the last three seasons.</div></div><div class="tyrow"><div class="tymeta"><div class="tn">body-strong</div><div class="tv">14px / 20px · 600</div></div><div class="body-strong" style="color:var(--ink)">Total hectares under cultivation</div></div><div class="tyrow"><div class="tymeta"><div class="tn">label</div><div class="tv">13px / 18px · 500</div></div><div class="label" style="color:var(--ink)">Farm registration number</div></div><div class="tyrow"><div class="tymeta"><div class="tn">caption</div><div class="tv">12px / 16px · 400</div></div><div class="caption" style="color:var(--ink)">From Farm_Visit_Report.docx · page 3</div></div><div class="tyrow"><div class="tymeta"><div class="tn">overline</div><div class="tv">11px / 16px · 600</div></div><div class="overline" style="color:var(--ink)">STEP 2 OF 4</div></div><h3>Figures</h3><div class="tyrow"><div class="tymeta"><div class="tn">figure</div><div class="tv">14px / 20px · 500</div></div><div class="figure" style="color:var(--ink)">R 1 248 500.00</div></div><div class="tyrow"><div class="tymeta"><div class="tn">figure-lg</div><div class="tv">28px / 36px · 500</div></div><div class="figure-lg" style="color:var(--ink)">R 850 000</div></div></section>
+<section id="scales"><h2>Space &amp; shape</h2><h3>Spacing</h3><div class="scrow"><span class="tn">space-1</span><span class="tv">4px</span><span class="bar" style="width:4px"></span><span class="u">Icon-to-label gap, badge padding.</span></div><div class="scrow"><span class="tn">space-2</span><span class="tv">8px</span><span class="bar" style="width:8px"></span><span class="u">Gap between related controls; table cell vertical padding.</span></div><div class="scrow"><span class="tn">space-3</span><span class="tv">12px</span><span class="bar" style="width:12px"></span><span class="u">Input horizontal padding; table cell horizontal padding.</span></div><div class="scrow"><span class="tn">space-4</span><span class="tv">16px</span><span class="bar" style="width:16px"></span><span class="u">Card padding (compact); gap between form fields.</span></div><div class="scrow"><span class="tn">space-5</span><span class="tv">24px</span><span class="bar" style="width:24px"></span><span class="u">Card / panel padding; gap between form groups.</span></div><div class="scrow"><span class="tn">space-6</span><span class="tv">32px</span><span class="bar" style="width:32px"></span><span class="u">Page gutters; gap between major sections.</span></div><div class="scrow"><span class="tn">space-7</span><span class="tv">48px</span><span class="bar" style="width:48px"></span><span class="u">Empty-state padding; top of workspace landing.</span></div><h3>Radius, sizes, shadows</h3><table class="t"><tr><td class="tn">radius-sm</td><td class="tv">4px</td><td>Badges, checkboxes, chips, table cell focus.</td></tr><tr><td class="tn">radius-md</td><td class="tv">6px</td><td>Buttons, inputs, menus.</td></tr><tr><td class="tn">radius-lg</td><td class="tv">10px</td><td>Cards, panels, dialogs, the drop zone.</td></tr><tr><td class="tn">radius-pill</td><td class="tv">999px</td><td>Step markers, avatars, confidence meters.</td></tr><tr><td class="tn">control-sm</td><td class="tv">28px</td><td>Compact buttons and inputs inside tables.</td></tr><tr><td class="tn">control-md</td><td class="tv">36px</td><td>Default button and input height.</td></tr><tr><td class="tn">control-lg</td><td class="tv">44px</td><td>Primary decision actions; touch targets on tablets in the field.</td></tr><tr><td class="tn">sidebar</td><td class="tv">240px</td><td>Workspace navigation width.</td></tr><tr><td class="tn">assistant</td><td class="tv">360px</td><td>AI assistant / source-document side panel width.</td></tr><tr><td class="tn">shadow-raised</td><td class="tv">0 1px 2px rgba(30,38,29,0.08)</td><td>Cards resting on canvas. Most surfaces use a line instead.</td></tr><tr><td class="tn">shadow-overlay</td><td class="tv">0 8px 24px rgba(30,38,29,0.16)</td><td>Menus, popovers, dialogs, the AI assistant drawer.</td></tr></table></section>
+<section id="button"><h2>Button</h2><div class="frame"><iframe class="pv" style="height:112px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Button — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-row&quot;&gt;
+  &lt;button class=&quot;fw-btn fw-btn-primary&quot;&gt;Send to committee&lt;/button&gt;
+  &lt;button class=&quot;fw-btn&quot;&gt;Save draft&lt;/button&gt;
+  &lt;button class=&quot;fw-btn fw-btn-quiet&quot;&gt;Cancel&lt;/button&gt;
+  &lt;button class=&quot;fw-btn fw-btn-ai&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;Draft summary&lt;/button&gt;
+  &lt;button class=&quot;fw-btn fw-btn-danger&quot;&gt;Decline application&lt;/button&gt;
+  &lt;button class=&quot;fw-btn fw-btn-sm&quot;&gt;Add row&lt;/button&gt;
+  &lt;button class=&quot;fw-btn fw-btn-primary&quot; disabled&gt;Approve&lt;/button&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>Buttons trigger one action, named verb-first in sentence case ("Import documents", "Send to committee").</p>
+<ul>
+<li><strong>Primary</strong> (<code>fw-btn-primary</code>, <code>brand</code> fill, <code>on-brand</code> text): the one action the screen exists for. At most one per view.</li>
+<li><strong>Default</strong> (<code>fw-btn</code>): secondary actions — Save draft, Export.</li>
+<li><strong>Quiet</strong> (<code>fw-btn-quiet</code>): low-emphasis actions in toolbars and dialogs (Cancel).</li>
+<li><strong>AI</strong> (<code>fw-btn-ai</code>, <code>ai</code> outline + sparkle): asks the AI to <em>propose</em> something — "Draft summary", "Extract from documents". It never commits anything by itself.</li>
+<li><strong>Danger</strong> (<code>fw-btn-danger</code>, <code>negative</code> fill): destructive or irreversible decisions — Decline, Delete record. Always confirm.</li>
+<li>Sizes: <code>fw-btn-sm</code> (28px, inside tables), default 36px, <code>fw-btn-lg</code> (44px, decision actions and tablets in the field).</li>
+</ul>
+<p>Consumer provides: the label, an optional 16px leading icon, <code>disabled</code> when the action isn't allowed yet (and a tooltip saying why).</p></div></section><section id="statusbadge"><h2>StatusBadge</h2><div class="frame"><iframe class="pv" style="height:88px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;StatusBadge — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-row&quot;&gt;
+  &lt;span class=&quot;fw-badge&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M4 20h4L19 9l-4-4L4 16z&quot;/&gt;&lt;/svg&gt;Draft&lt;/span&gt;
+  &lt;span class=&quot;fw-badge fw-badge-brand&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;4&quot;/&gt;&lt;/svg&gt;In review&lt;/span&gt;
+  &lt;span class=&quot;fw-badge fw-badge-caution&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 4l9 16H3z&quot;/&gt;&lt;path d=&quot;M12 10v4M12 17h.01&quot;/&gt;&lt;/svg&gt;Needs information&lt;/span&gt;
+  &lt;span class=&quot;fw-badge fw-badge-info&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M12 11v5M12 8h.01&quot;/&gt;&lt;/svg&gt;Referred&lt;/span&gt;
+  &lt;span class=&quot;fw-badge fw-badge-positive&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M8 12.5l2.5 2.5L16 9.5&quot;/&gt;&lt;/svg&gt;Approved&lt;/span&gt;
+  &lt;span class=&quot;fw-badge fw-badge-negative&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M9 9l6 6M15 9l-6 6&quot;/&gt;&lt;/svg&gt;Declined&lt;/span&gt;
+  &lt;span class=&quot;fw-badge fw-badge-ai&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;Suggested&lt;/span&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>A one- or two-word status for a record, field or file, always with an icon so it never relies on colour.</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Class</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Draft</td>
+<td><code>fw-badge</code></td>
+<td>Being captured; not submitted</td>
+</tr>
+<tr>
+<td>In review</td>
+<td><code>fw-badge-brand</code></td>
+<td>With an analyst</td>
+</tr>
+<tr>
+<td>Needs information</td>
+<td><code>fw-badge-caution</code></td>
+<td>Blocked on the applicant or field officer</td>
+</tr>
+<tr>
+<td>Referred</td>
+<td><code>fw-badge-info</code></td>
+<td>Escalated to committee or specialist</td>
+</tr>
+<tr>
+<td>Approved</td>
+<td><code>fw-badge-positive</code></td>
+<td>Decision recorded: approved</td>
+</tr>
+<tr>
+<td>Declined</td>
+<td><code>fw-badge-negative</code></td>
+<td>Decision recorded: declined</td>
+</tr>
+<tr>
+<td>Suggested</td>
+<td><code>fw-badge-ai</code></td>
+<td>AI-produced, awaiting a person</td>
+</tr>
+</tbody>
+</table>
+<p>Use the fixed vocabulary above; don't invent new statuses per screen. Consumer provides the status key; the badge picks label, icon and tone.</p></div></section><section id="field"><h2>Field</h2><div class="frame"><iframe class="pv" style="height:216px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;Field — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-row&quot; style=&quot;align-items:flex-start&quot;&gt;
+  &lt;label class=&quot;fw-field&quot;&gt;
+    &lt;span class=&quot;fw-label&quot;&gt;Farm name&lt;/span&gt;
+    &lt;input class=&quot;fw-input&quot; value=&quot;Mokoena Family Farms&quot;&gt;
+    &lt;span class=&quot;fw-help&quot;&gt;As on the CIPC registration&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;label class=&quot;fw-field fw-field-ai&quot;&gt;
+    &lt;span class=&quot;fw-label&quot;&gt;Hectares under cultivation &lt;span class=&quot;fw-badge fw-badge-ai&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;Suggested&lt;/span&gt;&lt;/span&gt;
+    &lt;input class=&quot;fw-input fw-num&quot; value=&quot;342.5 ha&quot;&gt;
+    &lt;span class=&quot;fw-help&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M14 3H6v18h12V7z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;Farm_Visit_Report.docx · p. 3 · 82%&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;label class=&quot;fw-field fw-field-error&quot;&gt;
+    &lt;span class=&quot;fw-label&quot;&gt;Annual turnover&lt;/span&gt;
+    &lt;input class=&quot;fw-input fw-num&quot; value=&quot;R 1 2O0 000&quot;&gt;
+    &lt;span class=&quot;fw-help&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M9 9l6 6M15 9l-6 6&quot;/&gt;&lt;/svg&gt;Enter a number — “O” looks like a letter&lt;/span&gt;
+  &lt;/label&gt;
+  &lt;label class=&quot;fw-field fw-field-readonly&quot;&gt;
+    &lt;span class=&quot;fw-label&quot;&gt;Record ID&lt;/span&gt;
+    &lt;input class=&quot;fw-input fw-num&quot; value=&quot;AGR-2026-00418&quot; readonly&gt;
+    &lt;span class=&quot;fw-help&quot;&gt;Generated&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>A labelled input with help text — the unit of structured capture.</p>
+<p>States:
+- <strong>Default</strong> — typed by a person.
+- <strong>Suggested</strong> (<code>fw-field-ai</code>) — filled by extraction or AI. <code>ai-tint</code> background, dashed <code>ai</code> border, a "Suggested" badge in the label and provenance in the help line (file · page or cell · confidence). Editing the value or pressing Enter accepts it and the field returns to default; the provenance stays in the audit log.
+- <strong>Error</strong> (<code>fw-field-error</code>) — <code>negative-tint</code> background and a help line that says how to fix it.
+- <strong>Read-only</strong> (<code>fw-field-readonly</code>) — generated or locked values on <code>surface-sunken</code>.</p>
+<p>Figures (amounts, hectares, herd counts, IDs) add <code>fw-num</code>: mono, tabular, right-aligned, with units in the value.</p>
+<p>Consumer provides: label, value, help text, and for suggested fields the source <code>{file, location, confidence}</code>.</p></div></section><section id="aisuggestion"><h2>AISuggestion</h2><div class="frame"><iframe class="pv" style="height:216px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;AISuggestion — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-col&quot;&gt;
+  &lt;div class=&quot;fw-suggest&quot; role=&quot;region&quot; aria-label=&quot;Suggested assessment summary&quot;&gt;
+    &lt;div class=&quot;fw-suggest-head&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;Suggested summary&lt;/div&gt;
+    &lt;div class=&quot;fw-suggest-body&quot;&gt;Mixed crop and cattle operation on 342.5 ha with three seasons of stable maize yields (avg 5.8 t/ha). Main risk is dependence on a single offtaker; irrigation covers 40% of planted area.&lt;/div&gt;
+    &lt;div class=&quot;fw-suggest-foot&quot;&gt;
+      &lt;span class=&quot;fw-source&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M14 3H6v18h12V7z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;From 3 documents · &lt;span class=&quot;fw-meter&quot; aria-label=&quot;Confidence 78%&quot;&gt;&lt;i style=&quot;width:78%&quot;&gt;&lt;/i&gt;&lt;/span&gt; 78%&lt;/span&gt;
+      &lt;span style=&quot;display:flex;gap:var(--space-2)&quot;&gt;
+        &lt;button class=&quot;fw-btn fw-btn-sm fw-btn-quiet&quot;&gt;Discard&lt;/button&gt;
+        &lt;button class=&quot;fw-btn fw-btn-sm&quot;&gt;Edit&lt;/button&gt;
+        &lt;button class=&quot;fw-btn fw-btn-sm fw-btn-primary&quot;&gt;Accept&lt;/button&gt;
+      &lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>A block of AI-proposed content — a narrative, a classification, a set of extracted values — that a person must accept, edit or discard.</p>
+<ul>
+<li>Always <code>ai-tint</code> + dashed <code>ai</code> border + sparkle + a title starting "Suggested…". The dashed border is the "not yet yours" signal; it becomes solid content once accepted.</li>
+<li>Always show provenance (which documents) and confidence. Low confidence (&lt; 60%) shows the meter in <code>caution</code> and the copy "Low confidence — check the source".</li>
+<li>Actions in this order: Discard (quiet), Edit (default), Accept (primary). Accepting records who accepted and when.</li>
+<li>Never auto-accept, never stack more than three suggestions unreviewed on screen; group the rest behind "12 more suggestions".</li>
+</ul>
+<p>Consumer provides: title, body, sources, confidence (0–1), and the three handlers.</p></div></section><section id="workflowstepper"><h2>WorkflowStepper</h2><div class="frame"><iframe class="pv" style="height:88px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;WorkflowStepper — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;ol class=&quot;fw-steps&quot; aria-label=&quot;Assessment progress&quot;&gt;
+  &lt;li class=&quot;fw-step fw-step-done&quot;&gt;&lt;span class=&quot;fw-step-dot&quot;&gt;✓&lt;/span&gt;Capture&lt;/li&gt;
+  &lt;li class=&quot;fw-step-sep&quot; aria-hidden=&quot;true&quot;&gt;&lt;/li&gt;
+  &lt;li class=&quot;fw-step fw-step-current&quot; aria-current=&quot;step&quot;&gt;&lt;span class=&quot;fw-step-dot&quot;&gt;2&lt;/span&gt;Structure &lt;span class=&quot;fw-badge fw-badge-ai fw-step-count&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;12 to review&lt;/span&gt;&lt;/li&gt;
+  &lt;li class=&quot;fw-step-sep&quot; aria-hidden=&quot;true&quot;&gt;&lt;/li&gt;
+  &lt;li class=&quot;fw-step&quot;&gt;&lt;span class=&quot;fw-step-dot&quot;&gt;3&lt;/span&gt;Assess&lt;/li&gt;
+  &lt;li class=&quot;fw-step-sep&quot; aria-hidden=&quot;true&quot;&gt;&lt;/li&gt;
+  &lt;li class=&quot;fw-step&quot;&gt;&lt;span class=&quot;fw-step-dot&quot;&gt;4&lt;/span&gt;Decide&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>The record's progress through Capture → Structure → Assess → Decide. Always visible in the record header.</p>
+<ul>
+<li><strong>Done</strong>: <code>brand-tint</code> disc with a check. <strong>Current</strong>: solid <code>brand</code> disc, <code>ink</code> label, <code>aria-current="step"</code>. <strong>Upcoming</strong>: outlined disc, <code>ink-muted</code> label.</li>
+<li>A stage with open work shows a count badge instead of letting people move on: AI suggestions to review (<code>fw-badge-ai</code>) or invalid fields (<code>fw-badge-negative</code>).</li>
+<li>Steps are clickable to revisit; moving forward past a blocked stage is not allowed.</li>
+</ul>
+<p>Consumer provides: the stage list, current index and per-stage counts.</p></div></section><section id="datatable"><h2>DataTable</h2><div class="frame"><iframe class="pv" style="height:256px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;DataTable — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-col&quot;&gt;
+&lt;table class=&quot;fw-table&quot;&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Asset&lt;/th&gt;&lt;th&gt;Category&lt;/th&gt;&lt;th class=&quot;fw-num&quot;&gt;Quantity&lt;/th&gt;&lt;th class=&quot;fw-num&quot;&gt;Value&lt;/th&gt;&lt;th&gt;Source&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;Tractor — John Deere 6120M&lt;/td&gt;&lt;td&gt;Equipment&lt;/td&gt;&lt;td class=&quot;fw-num&quot;&gt;1&lt;/td&gt;&lt;td class=&quot;fw-num&quot;&gt;R 1 150 000&lt;/td&gt;&lt;td class=&quot;fw-caption&quot;&gt;Asset_Register.xlsx · B4&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Nguni cattle&lt;/td&gt;&lt;td&gt;Livestock&lt;/td&gt;&lt;td class=&quot;fw-num fw-cell-ai&quot;&gt;186&lt;/td&gt;&lt;td class=&quot;fw-num fw-cell-ai&quot;&gt;R 2 418 000&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;fw-badge fw-badge-ai&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;Suggested&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Centre pivot&lt;/td&gt;&lt;td&gt;Irrigation&lt;/td&gt;&lt;td class=&quot;fw-num&quot;&gt;2&lt;/td&gt;&lt;td class=&quot;fw-num fw-cell-error&quot;&gt;—&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;fw-badge fw-badge-negative&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M9 9l6 6M15 9l-6 6&quot;/&gt;&lt;/svg&gt;Value missing&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Grain silo (500 t)&lt;/td&gt;&lt;td&gt;Infrastructure&lt;/td&gt;&lt;td class=&quot;fw-num&quot;&gt;1&lt;/td&gt;&lt;td class=&quot;fw-num&quot;&gt;R 640 000&lt;/td&gt;&lt;td class=&quot;fw-caption&quot;&gt;Typed by T. Mokoena&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>Rows of structured records — the replacement for the spreadsheet. Editable inline, with provenance per row.</p>
+<ul>
+<li>Header on <code>surface-sunken</code>, <code>caption</code>-sized <code>ink-muted</code> labels; rows on <code>surface</code> with <code>line</code> hairlines; hover <code>surface-hover</code>.</li>
+<li>Figures are <code>fw-num</code> (mono, right-aligned, units in the value). Never centre numbers.</li>
+<li>Cell states: suggested (<code>fw-cell-ai</code>) and invalid (<code>fw-cell-error</code>) — paired with a badge in the Source column so state isn't colour-only.</li>
+<li>A Source column is standard: file and cell/page, "Typed by <name>", or a Suggested badge.</li>
+<li>Keep rows 36px (<code>control-md</code>); use <code>fw-btn-sm</code> for row actions.</li>
+</ul>
+<p>Consumer provides: columns (key, label, numeric?), rows, per-cell state and source.</p></div></section><section id="documentdropzone"><h2>DocumentDropzone</h2><div class="frame"><iframe class="pv" style="height:316px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;DocumentDropzone — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-col&quot;&gt;
+  &lt;div class=&quot;fw-drop&quot;&gt;
+    &lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 15V4M7 9l5-5 5 5&quot;/&gt;&lt;path d=&quot;M4 15v5h16v-5&quot;/&gt;&lt;/svg&gt;
+    &lt;div style=&quot;font-weight:600&quot;&gt;Drop farm documents here&lt;/div&gt;
+    &lt;div class=&quot;fw-caption&quot;&gt;Spreadsheets, Word, PDF or photos · up to 25 MB each&lt;/div&gt;
+    &lt;button class=&quot;fw-btn fw-btn-sm&quot;&gt;Choose files&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;ul class=&quot;fw-files&quot;&gt;
+    &lt;li class=&quot;fw-file&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M14 3H6v18h12V7z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;&lt;span class=&quot;fw-file-name&quot;&gt;Farm_Visit_Report.docx&lt;/span&gt;&lt;span class=&quot;fw-caption&quot;&gt;14 fields found&lt;/span&gt;&lt;span class=&quot;fw-badge fw-badge-positive&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M8 12.5l2.5 2.5L16 9.5&quot;/&gt;&lt;/svg&gt;Extracted&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;fw-file&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M14 3H6v18h12V7z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;&lt;span class=&quot;fw-file-name&quot;&gt;Asset_Register.xlsx&lt;/span&gt;&lt;span class=&quot;fw-caption&quot;&gt;Reading sheet 2 of 3…&lt;/span&gt;&lt;span class=&quot;fw-badge fw-badge-ai&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z&quot;/&gt;&lt;path d=&quot;M19 15l.7 1.8 1.8.7-1.8.7L19 20l-.7-1.8-1.8-.7 1.8-.7z&quot;/&gt;&lt;/svg&gt;Extracting&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;fw-file&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M14 3H6v18h12V7z&quot;/&gt;&lt;path d=&quot;M14 3v4h4&quot;/&gt;&lt;/svg&gt;&lt;span class=&quot;fw-file-name&quot;&gt;Bank_Statement_Scan.jpg&lt;/span&gt;&lt;span class=&quot;fw-caption&quot;&gt;Too blurry to read&lt;/span&gt;&lt;span class=&quot;fw-badge fw-badge-caution&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 4l9 16H3z&quot;/&gt;&lt;path d=&quot;M12 10v4M12 17h.01&quot;/&gt;&lt;/svg&gt;Retake photo&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>Where Capture starts: people bring the documents they already have, and extraction turns them into fields.</p>
+<ul>
+<li>Dashed <code>line-strong</code> drop area on <code>surface</code>; the browse button is always present for keyboard and touch users.</li>
+<li>Each file gets a row with what was found and a status: Extracting (<code>ai</code>), Extracted (<code>positive</code>), Needs attention (<code>caution</code>, with the fix: "Retake photo", "Password-protected").</li>
+<li>Extraction never silently overwrites typed values — conflicts become suggestions in Structure.</li>
+<li>Manual entry is always offered next to the zone: "or enter details manually".</li>
+</ul>
+<p>Consumer provides: accepted types and size, the file list with status, and upload/retry/remove handlers.</p></div></section><section id="decisionpanel"><h2>DecisionPanel</h2><div class="frame"><iframe class="pv" style="height:396px" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;title&gt;DecisionPanel — preview&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap&quot;&gt;
+&lt;style&gt;:root,[data-theme=light]{--canvas:#f6f4ee;--surface:#ffffff;--surface-sunken:#efece4;--surface-hover:#e7e3d8;--line:#ddd8cb;--line-strong:#8c8778;--ink:#1e261d;--ink-muted:#565e52;--ink-subtle:#6a7165;--brand:#2f5d3a;--brand-hover:#244a2d;--on-brand:#ffffff;--brand-tint:#e4ede3;--harvest:#c9962c;--ai:#0e6a6e;--ai-tint:#e0f0ee;--ai-line:#7fbfbc;--positive:#2a7347;--positive-tint:#e2f1e6;--caution:#93570a;--caution-tint:#fbefd9;--negative:#b03d2b;--negative-tint:#f9e4df;--on-negative:#ffffff;--info:#2d5f8a;--info-tint:#e2ecf5;--focus:var(--info);--shadow-raised:0 1px 2px rgba(30,38,29,0.08);--shadow-overlay:0 8px 24px rgba(30,38,29,0.16);}
+[data-theme=dark]{--canvas:#131712;--surface:#1a1f19;--surface-sunken:#222821;--surface-hover:#2a3128;--line:#2f352c;--line-strong:#6a7262;--ink:#e9ede3;--ink-muted:#a9b1a1;--ink-subtle:#8f9887;--brand:#86bb8f;--brand-hover:#9dcaa5;--on-brand:#0f1a11;--brand-tint:#1f3324;--harvest:#d9a845;--ai:#5ec4c0;--ai-tint:#14302f;--ai-line:#2f6f6c;--positive:#74c693;--positive-tint:#16301f;--caution:#e6a64a;--caution-tint:#342611;--negative:#f08b78;--negative-tint:#3a1d17;--on-negative:#1a0d0a;--info:#82b2dc;--info-tint:#162a3c;--shadow-raised:0 1px 2px rgba(0,0,0,0.5);--shadow-overlay:0 8px 24px rgba(0,0,0,0.6);}
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--radius-sm:4px;--radius-md:6px;--radius-lg:10px;--radius-pill:999px;--control-sm:28px;--control-md:36px;--control-lg:44px;--sidebar:240px;--assistant:360px;--font-sans:&quot;IBM Plex Sans&quot;, system-ui, -apple-system, &quot;Segoe UI&quot;, sans-serif;--font-mono:&quot;IBM Plex Mono&quot;, ui-monospace, &quot;SF Mono&quot;, Menlo, monospace;}
+.display{font-family:var(--font-sans);font-size:32px;line-height:40px;font-weight:600;letter-spacing:-0.01em;}
+.heading-1{font-family:var(--font-sans);font-size:24px;line-height:32px;font-weight:600;}
+.heading-2{font-family:var(--font-sans);font-size:18px;line-height:26px;font-weight:600;}
+.heading-3{font-family:var(--font-sans);font-size:15px;line-height:22px;font-weight:600;}
+.body{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:400;}
+.body-strong{font-family:var(--font-sans);font-size:14px;line-height:20px;font-weight:600;}
+.label{font-family:var(--font-sans);font-size:13px;line-height:18px;font-weight:500;}
+.caption{font-family:var(--font-sans);font-size:12px;line-height:16px;font-weight:400;}
+.overline{font-family:var(--font-sans);font-size:11px;line-height:16px;font-weight:600;letter-spacing:0.06em;}
+.figure{font-family:var(--font-mono);font-size:14px;line-height:20px;font-weight:500;}
+.figure-lg{font-family:var(--font-mono);font-size:28px;line-height:36px;font-weight:500;}
+/* Furrow components — class prefix fw-. Load after tokens.css. */
+body { margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; background: var(--canvas); color: var(--ink); }
+.fw-row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; padding: var(--space-4); }
+.fw-col { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); }
+.fw-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.fw-ico { width: 16px; height: 16px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Button */
+.fw-btn { font: inherit; font-size: 13px; font-weight: 500; line-height: 18px; display: inline-flex; align-items: center; gap: var(--space-2); height: var(--control-md); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.fw-btn:hover { background: var(--surface-hover); }
+.fw-btn-primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-btn-primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); }
+.fw-btn-quiet { border-color: transparent; background: transparent; }
+.fw-btn-danger { background: var(--negative); border-color: var(--negative); color: var(--on-negative); }
+.fw-btn-ai { border-color: var(--ai); color: var(--ai); background: var(--surface); }
+.fw-btn-sm { height: var(--control-sm); padding: 0 var(--space-3); font-size: 12px; }
+.fw-btn-lg { height: var(--control-lg); padding: 0 var(--space-5); font-size: 14px; }
+.fw-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* Badge */
+.fw-badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; font-weight: 500; line-height: 20px; padding: 0 var(--space-2); border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--ink-muted); white-space: nowrap; }
+.fw-badge .fw-ico { width: 14px; height: 14px; }
+.fw-badge-positive { background: var(--positive-tint); color: var(--positive); }
+.fw-badge-caution { background: var(--caution-tint); color: var(--caution); }
+.fw-badge-negative { background: var(--negative-tint); color: var(--negative); }
+.fw-badge-info { background: var(--info-tint); color: var(--info); }
+.fw-badge-ai { background: var(--ai-tint); color: var(--ai); }
+.fw-badge-brand { background: var(--brand-tint); color: var(--brand); }
+
+/* Field */
+.fw-field { display: flex; flex-direction: column; gap: var(--space-1); min-width: 220px; flex: 1; }
+.fw-label { font-size: 13px; font-weight: 500; line-height: 18px; color: var(--ink); display: flex; align-items: center; gap: var(--space-2); }
+.fw-input { font: inherit; height: var(--control-md); box-sizing: border-box; padding: 0 var(--space-3); border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); width: 100%; }
+.fw-input::placeholder { color: var(--ink-subtle); }
+.fw-input.fw-num { text-align: right; }
+.fw-help { font-size: 12px; line-height: 16px; color: var(--ink-muted); display: flex; align-items: center; gap: var(--space-1); }
+.fw-field-ai .fw-input { background: var(--ai-tint); border: 1px dashed var(--ai); }
+.fw-field-ai .fw-help { color: var(--ai); }
+.fw-field-error .fw-input { border-color: var(--negative); background: var(--negative-tint); }
+.fw-field-error .fw-help { color: var(--negative); }
+.fw-field-readonly .fw-input { background: var(--surface-sunken); border-color: var(--line); }
+
+/* Card / panel */
+.fw-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--space-5); }
+.fw-card-title { margin: 0 0 var(--space-1); font-size: 15px; line-height: 22px; font-weight: 600; }
+.fw-caption { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.fw-overline { font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* AI suggestion */
+.fw-suggest { background: var(--ai-tint); border: 1px dashed var(--ai); border-radius: var(--radius-lg); padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); max-width: 560px; }
+.fw-suggest-head { display: flex; align-items: center; gap: var(--space-2); color: var(--ai); font-size: 13px; font-weight: 600; }
+.fw-suggest-body { color: var(--ink); }
+.fw-suggest-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
+.fw-source { display: inline-flex; align-items: center; gap: var(--space-1); font-size: 12px; color: var(--ink-muted); }
+.fw-meter { display: inline-block; width: 48px; height: 6px; border-radius: var(--radius-pill); background: var(--line); overflow: hidden; vertical-align: middle; }
+.fw-meter &gt; i { display: block; height: 100%; background: var(--ai); border-radius: var(--radius-pill); }
+
+/* Workflow stepper */
+.fw-steps { display: flex; align-items: center; gap: var(--space-2); list-style: none; margin: 0; padding: var(--space-4); }
+.fw-step { display: flex; align-items: center; gap: var(--space-2); font-size: 13px; font-weight: 500; color: var(--ink-muted); }
+.fw-step-dot { width: 24px; height: 24px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink-muted); box-sizing: border-box; }
+.fw-step-done .fw-step-dot { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
+.fw-step-current { color: var(--ink); }
+.fw-step-current .fw-step-dot { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.fw-step-sep { flex: 1; min-width: 24px; height: 1px; background: var(--line-strong); }
+.fw-step-count { margin-left: var(--space-1); }
+
+/* Data table */
+.fw-table { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; font-size: 14px; }
+.fw-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-muted); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.fw-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: 0; }
+.fw-table tbody tr:hover td { background: var(--surface-hover); }
+.fw-table .fw-num { text-align: right; }
+.fw-table th.fw-num { font-family: var(--font-sans); }
+.fw-cell-ai { background: var(--ai-tint); box-shadow: inset 0 0 0 1px var(--ai-line); color: var(--ink); }
+.fw-cell-error { background: var(--negative-tint); box-shadow: inset 0 0 0 1px var(--negative); }
+
+/* Dropzone */
+.fw-drop { border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); background: var(--surface); padding: var(--space-6) var(--space-5); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-2); }
+.fw-drop .fw-ico { width: 24px; height: 24px; color: var(--brand); }
+.fw-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-file { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); }
+.fw-file-name { flex: 1; font-weight: 500; }
+
+/* Decision panel */
+.fw-decision { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; max-width: 720px; }
+.fw-decision-head { padding: var(--space-5); display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-4); border-bottom: 1px solid var(--line); }
+.fw-figure-lg { font-family: var(--font-mono); font-size: 28px; line-height: 36px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.fw-kpis { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.fw-kpi { padding: var(--space-4) var(--space-5); border-right: 1px solid var(--line); }
+.fw-kpi:last-child { border-right: 0; }
+.fw-decision-body { padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.fw-decision-foot { padding: var(--space-4) var(--space-5); background: var(--surface-sunken); display: flex; gap: var(--space-2); justify-content: flex-end; flex-wrap: wrap; }
+.fw-list { margin: 0; padding-left: var(--space-5); }
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;fw-col&quot;&gt;
+&lt;section class=&quot;fw-decision&quot; aria-label=&quot;Financing decision&quot;&gt;
+  &lt;div class=&quot;fw-decision-head&quot;&gt;
+    &lt;div&gt;
+      &lt;div class=&quot;fw-overline&quot;&gt;Recommended facility&lt;/div&gt;
+      &lt;div class=&quot;fw-figure-lg&quot;&gt;R 850 000&lt;/div&gt;
+      &lt;div class=&quot;fw-caption&quot;&gt;Production loan · 24 months · prime + 2%&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;span class=&quot;fw-badge fw-badge-brand&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;4&quot;/&gt;&lt;/svg&gt;Ready for decision&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;fw-kpis&quot;&gt;
+    &lt;div class=&quot;fw-kpi&quot;&gt;&lt;div class=&quot;fw-caption&quot;&gt;Risk score&lt;/div&gt;&lt;div class=&quot;fw-num&quot; style=&quot;font-size:18px;line-height:26px&quot;&gt;64 / 100&lt;/div&gt;&lt;span class=&quot;fw-badge fw-badge-caution&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 4l9 16H3z&quot;/&gt;&lt;path d=&quot;M12 10v4M12 17h.01&quot;/&gt;&lt;/svg&gt;Moderate&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;fw-kpi&quot;&gt;&lt;div class=&quot;fw-caption&quot;&gt;Debt service cover&lt;/div&gt;&lt;div class=&quot;fw-num&quot; style=&quot;font-size:18px;line-height:26px&quot;&gt;1.42×&lt;/div&gt;&lt;span class=&quot;fw-badge fw-badge-positive&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M8 12.5l2.5 2.5L16 9.5&quot;/&gt;&lt;/svg&gt;Above 1.25×&lt;/span&gt;&lt;/div&gt;
+    &lt;div class=&quot;fw-kpi&quot;&gt;&lt;div class=&quot;fw-caption&quot;&gt;Loan to value&lt;/div&gt;&lt;div class=&quot;fw-num&quot; style=&quot;font-size:18px;line-height:26px&quot;&gt;58%&lt;/div&gt;&lt;span class=&quot;fw-badge fw-badge-positive&quot;&gt;&lt;svg class=&quot;fw-ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M8 12.5l2.5 2.5L16 9.5&quot;/&gt;&lt;/svg&gt;Within 70%&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;fw-decision-body&quot;&gt;
+    &lt;div class=&quot;fw-label&quot;&gt;Conditions&lt;/div&gt;
+    &lt;ul class=&quot;fw-list&quot;&gt;&lt;li&gt;Signed offtake agreement for 2027 season&lt;/li&gt;&lt;li&gt;Livestock insured before drawdown&lt;/li&gt;&lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;fw-decision-foot&quot;&gt;
+    &lt;button class=&quot;fw-btn fw-btn-lg fw-btn-quiet&quot;&gt;Request information&lt;/button&gt;
+    &lt;button class=&quot;fw-btn fw-btn-lg&quot;&gt;Refer to committee&lt;/button&gt;
+    &lt;button class=&quot;fw-btn fw-btn-lg fw-btn-danger&quot;&gt;Decline&lt;/button&gt;
+    &lt;button class=&quot;fw-btn fw-btn-lg fw-btn-primary&quot;&gt;Approve&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" loading="lazy"></iframe></div><div class="prose"><p>The end of the workflow: the recommendation, the evidence behind it, and the four possible outcomes.</p>
+<ul>
+<li>Headline figure in <code>figure-lg</code> (mono); facility terms in <code>caption</code>.</li>
+<li>Three to four KPIs, each with a value and a badge comparing it to policy ("Above 1.25×"). The threshold is always stated, not just coloured.</li>
+<li>Conditions as a short list. If AI drafted the rationale, it appears as an <code>AISuggestion</code> above the panel until accepted.</li>
+<li>Outcomes, left to right: Request information (quiet), Refer to committee, Decline (danger), Approve (primary) — all <code>fw-btn-lg</code>. Every outcome asks for a one-line reason and is audit-logged.</li>
+<li>AI never pre-selects an outcome.</li>
+</ul>
+<p>Consumer provides: facility amount and terms, KPIs <code>{label, value, policy, tone}</code>, conditions, and outcome handlers.</p></div></section>
+</main>
+</div>
+<script>
+(function(){var b=document.getElementById('tgl'),r=document.documentElement;
+function apply(th){r.setAttribute('data-theme',th);document.querySelectorAll('iframe.pv').forEach(function(f){try{f.contentDocument.documentElement.setAttribute('data-theme',th)}catch(e){}});b.textContent=th==='dark'?'Switch to light theme':'Switch to dark theme';b.setAttribute('aria-pressed',th==='dark')}
+document.querySelectorAll('iframe.pv').forEach(function(f){f.addEventListener('load',function(){try{var d=f.contentDocument.documentElement;d.setAttribute('data-theme',r.getAttribute('data-theme'));if(!f.closest('.cover'))f.style.height=(d.scrollHeight+4)+'px'}catch(e){}})});
+b.addEventListener('click',function(){apply(r.getAttribute('data-theme')==='dark'?'light':'dark')});
+if(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)apply('dark');})();
+</script>
+</body>
+</html>
